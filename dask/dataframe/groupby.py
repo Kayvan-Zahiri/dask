@@ -553,6 +553,8 @@ def _cov_agg(_t, levels, ddof, std=False, sort=False):
         kwargs = {"dropna": False}
     s_result = result.stack(**kwargs)
     assert is_dataframe_like(s_result)
+    # pandas < 2.2 stack orders columns by the sorted level, not by position
+    s_result = s_result[[inv_col_mapping.get(c, c) for c in cols]]
     return s_result
 
 
